@@ -1,8 +1,14 @@
 import React from 'react';
 import Image from 'react-bootstrap/Image';
+import Card from './card'
 
 class Donkey extends React.Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {my_cards: null,
+                      card_deck: null};
+      }
 
     render() {
 
@@ -10,15 +16,10 @@ class Donkey extends React.Component {
             <React.Fragment>
 
                 <h1> Welcome to Donkey </h1>
-                <Image src={require('./images/card.png')} thumbnail />
+                <Card value="./images/Diamond_1.png" />
             </React.Fragment>
         )
-
-
     }
-
-
-
 }
 
 export default Donkey
