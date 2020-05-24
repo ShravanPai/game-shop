@@ -135,19 +135,34 @@ class GameShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {game_selected: false,
-                  current_game: null};
+                  current_game: null,
+                  user_name: null};
 
     this.onGameSelect = this.onGameSelect.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
   }
 
   onGameSelect(event) {
-    this.setState({game_selected: true, current_game: event.target.value});
+    var userName;
+    if (!this.state.user_name) {
+      userName = prompt('Please enter a user name. Page will be reset if you cancel or enter invalid user id');
+      if (!userName || userName.trim() === "") {
+        event.target.value = '--None--';
+        return;
+      }
+      
+      this.setState({user_name: userName});
+    }
+      
+    this.setState({game_selected: true});
+    if (event.target.value === 'Donkey')
+      this.setState({current_game: <Donkey userName={userName}/>});
+
   }
 
   leaveGame() {
     if (window.confirm('Leave Game?'))
-      this.setState({game_selected: false, current_game: null});
+      this.setState({game_selected: false, current_game: null, user_name: null});
   }
 
   render() {
@@ -168,12 +183,13 @@ class GameShop extends React.Component {
         </Form.Group>
         </Form>
         : 
+          <React.Fragment>
+          {this.state.current_game}
           <div align="right">
             <Button variant="outline-danger" size="sm" onClick={this.leaveGame}>Leave Game</Button>
           </div>
+          </React.Fragment>
       }
-
-
       </React.Fragment>
     );
   }
